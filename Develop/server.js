@@ -6,9 +6,8 @@ const jsonData = require('./db/db.json');
 const uuid = require('./helpers/uuid');
 const PORT = 3002;
 const app = express();
-
 app.use(express.json());
-
+app.use(express.static('public'));
 // GET Routes
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
@@ -45,12 +44,10 @@ app.post('/api/notes', (req, res) => {
   fsPromises.readFile('db/db.json', 'utf8')
     .then(data => {
       let json = JSON.parse(data);
-      console.log(json)
       json.push(newNote);
-      console.log(json)
       fsPromises.writeFile('db/db.json', JSON.stringify(json))
-        .then(() => { console.log('Append Success'); })
-        .catch(err => { console.log("Append Failed: " + err); });
+        .then(() => { console.log("Note Added"); })
+        .catch(err => { console.log("Note Failed " + err); });
     })
     .catch(err => { console.log("Read Error: " + err); });
 });
