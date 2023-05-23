@@ -1,3 +1,4 @@
+const fsPromises = require('fs').promises;
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -15,7 +16,10 @@ app.get('/', (req, res) =>
 app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
-app.get('/api/notes', (req, res) => res.json(jsonData));
+app.get('/api/notes', (req, res) => {
+  fsPromises.readFile('db/db.json', 'utf8')
+  .then(data => res.json(JSON.parse(data)));
+});
 
 
 // POST Routes
@@ -40,7 +44,6 @@ app.post('/api/notes', (req, res) => {
     res.status(500).json('Error in posting note');
   }
 
-  const fsPromises = require('fs').promises;
   fsPromises.readFile('db/db.json', 'utf8')
     .then(data => {
       let json = JSON.parse(data);
