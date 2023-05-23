@@ -4,7 +4,7 @@ const fs = require('fs');
 /* const util = require('util'); */
 const jsonData = require('./db/db.json');
 const uuid = require('./helpers/uuid');
-const PORT = 3001;
+const PORT = 5000;
 const app = express();
 app.use(express.json());
 app.use(express.static('public'));
